@@ -204,6 +204,54 @@ body {
   }
 }
 
+.cards-hidden .card-wrap:not(.active) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Fullscreen Mode */
+.card-wrap.active {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #f0ede8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* الكارت داخل الوضع الكامل */
+.card-wrap.active .card-inner {
+  width: min(420px, 90vw);
+  padding-bottom: 0;
+  height: 70vh;
+}
+
+/* منع hover flip الافتراضي في الوضع الكبير */
+.card-wrap.active:hover .card-inner {
+  transform: none;
+}
+
+/* زر الرجوع */
+.card-close-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100000;
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* حالة flip داخل الوضع المفتوح */
+.card-wrap.active.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
 </style>
 </head>
 <body>
@@ -260,6 +308,62 @@ function section(label, slice, cls) {
 document.getElementById("app").innerHTML =
   section("مفاتيح التفكير الناقد",  [0,10],  "cat-purple") +
   section("مفاتيح التفكير الإبداعي",[10,20], "cat-orange");
+</script>
+
+<script>
+const cards = document.querySelectorAll('.card-wrap');
+const grid = document.querySelector('.cards-grid');
+
+let activeCard = null;
+
+// زر الرجوع
+const closeBtn = document.createElement('button');
+closeBtn.className = 'card-close-btn';
+closeBtn.innerText = 'رجوع';
+document.body.appendChild(closeBtn);
+closeBtn.style.display = 'none';
+
+closeBtn.addEventListener('click', () => {
+  exitFullView();
+});
+
+function exitFullView() {
+  if (!activeCard) return;
+
+  activeCard.classList.remove('active', 'flipped');
+  grid.classList.remove('cards-hidden');
+
+  activeCard = null;
+  closeBtn.style.display = 'none';
+}
+
+// التعامل مع الكروت
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+
+    // لو مفيش كارت مفتوح → افتح
+    if (!activeCard) {
+      activeCard = card;
+      card.classList.add('active');
+      grid.classList.add('cards-hidden');
+      closeBtn.style.display = 'block';
+      return;
+    }
+
+    // لو نفس الكارت المفتوح → flip
+    if (activeCard === card) {
+      card.classList.toggle('flipped');
+      return;
+    }
+  });
+});
+
+// ESC للخروج
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    exitFullView();
+  }
+});
 </script>
 
 <footer class="site-footer">
