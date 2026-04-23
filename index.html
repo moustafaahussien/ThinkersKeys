@@ -16,6 +16,40 @@ body {
   padding-bottom: 60px;
 }
 
+/* ===== LOGOS (إضافة جديدة) ===== */
+.top-logo {
+  position: fixed;
+  top: 15px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.top-logo img {
+  height: 70px;
+  width: auto;
+}
+
+.right-logo { right: 20px; }
+.left-logo  { left: 20px; }
+
+.left-logo img {
+  height: 50px;
+}
+
+/* موبايل */
+@media (max-width: 768px) {
+  .top-logo { top: 10px; }
+  .top-logo img { height: 40px; }
+  .right-logo { right: 10px; }
+  .left-logo  { left: 10px; }
+}
+
+/* منع تداخل مع الهيدر */
+@media (max-width: 768px) {
+  .site-header { padding-top: 80px; }
+}
+/* ===== END LOGOS ===== */
+
 .site-header {
   text-align: center;
   padding: 44px 20px 30px;
@@ -115,7 +149,6 @@ body {
   letter-spacing: 1.5px; text-transform: uppercase;
   margin-bottom: 3px; margin-top: 7px;
 }
-/* First label no top margin */
 .back-section-label:first-of-type { margin-top: 0; }
 
 .back-section-text {
@@ -149,12 +182,21 @@ body {
 </head>
 <body>
 
+<!-- ===== LOGOS (إضافة جديدة) ===== -->
+<div class="top-logo right-logo">
+  <img src="logo-right.png" alt="Dar Al Thikr Schools">
+</div>
+
+<div class="top-logo left-logo">
+  <img src="logo-left.png" alt="Rethinkers">
+</div>
+<!-- ===== END LOGOS ===== -->
+
 <header class="site-header">
   <div class="brand">Rethinkers · مدارس التفكير</div>
   <h1>مفاتيح التفكير العشرون</h1>
   <p>مرّر على الكارت لاكتشاف معناه وهدفه</p>
 </header>
-
 <div id="app"></div>
 
 <script>
